@@ -1,0 +1,25 @@
+global:
+  scrape_interval:     15s
+  external_labels:
+    monitor: 'perfthief-monitor'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name:   'spring-boot-app'
+    scrape_interval: 5s
+    metrics_path: /status/prometheus
+    static_configs:
+      - targets: 
+        - 'docker.for.mac.host.internal:8080'
+        - 'docker.for.mac.host.internal:8081'
+        - 'docker.for.mac.host.internal:8082'
+
+  - job_name:   'mongo-exporter'
+    scrape_interval: 5s
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['docker.for.mac.host.internal:9216']
